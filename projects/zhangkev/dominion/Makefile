@@ -29,30 +29,30 @@ runtests: testDrawCard
 	gcov dominion.c >> randomtestresult.out
 	cat dominion.c.gcov >> randomtestresult.out
 
-randomtestresults.out: randomtest1.c randomtest2.c randomtest3.c dominion.o
-	echo "randomtest1.c:" >> randomtestresults.out
-	gcc -o randomtest1 dominion.c rngs.c randomtest1.c $(CFLAGS)
-	randomtest1 >> randomtestresults.out
+randomtestresults.out: randomtestcard1.c randomtestcard2.c randomtestcard3.c dominion.o
+	echo "randomtestcard1.c:" >> randomtestresults.out
+	gcc -o randomtestcard1 dominion.c rngs.c randomtestcard1.c $(CFLAGS)
+	randomtestcard1 >> randomtestresults.out
 	gcov dominion.c -b >> randomtestresults.out 
 	
-	echo "randomtest2.c:" >> randomtestresults.out
-	gcc -o randomtest2 dominion.c rngs.c randomtest2.c $(CFLAGS)
-	randomtest2 >> randomtestresults.out
+	echo "randomtestcard2.c:" >> randomtestresults.out
+	gcc -o randomtestcard2 dominion.c rngs.c randomtestcard2.c $(CFLAGS)
+	randomtestcard2 >> randomtestresults.out
 	gcov dominion.c -b >> randomtestresults.out 
 	
-	echo "randomtest3.c:" >> randomtestresults.out
-	gcc -o randomtest3 dominion.c rngs.c randomtest3.c $(CFLAGS)
-	randomtest3 >> randomtestresults.out
+	echo "randomtestcard3.c:" >> randomtestresults.out
+	gcc -o randomtestcard3 dominion.c rngs.c randomtestcard3.c $(CFLAGS)
+	randomtestcard3 >> randomtestresults.out
 	gcov dominion.c -b >> randomtestresults.out 
 	
-randomtest1: randomtest1.c dominion.o
-	gcc -o randomtest1 dominion.c rngs.c randomtest1.c $(CFLAGS)
+randomtestcard1: randomtestcard1.c dominion.o
+	gcc -o randomtestcard1 dominion.c rngs.c randomtestcard1.c $(CFLAGS)
 
-randomtest2: randomtest2.c dominion.o
-	gcc -o randomtest2 dominion.c rngs.c randomtest2.c $(CFLAGS)
+randomtestcard2: randomtestcard2.c dominion.o
+	gcc -o randomtestcard2 dominion.c rngs.c randomtestcard2.c $(CFLAGS)
 	
-randomtest3: randomtest3.c dominion.o
-	gcc -o randomtest3 dominion.c rngs.c randomtest3.c $(CFLAGS)
+randomtestcard3: randomtestcard3.c dominion.o
+	gcc -o randomtestcard3 dominion.c rngs.c randomtestcard3.c $(CFLAGS)
 	
 	
 player: player.c interface.o

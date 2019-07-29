@@ -5,18 +5,17 @@
 #include "rngs.h"
 #include <stdlib.h>
 #include <time.h>
-#include <iostream>
+#include <stdbool.h>
 
 void main() 
 {
 	srand(time(NULL));
 
+	int a;
     int i;
 	int j;
 	int m;
 	int index;
-	int currentPlayer = whoseTurn(state);
-	int nextPlayer = currentPlayer + 1;
 	int tributeRevealedCards[2] = {-1, -1};
 	int temphand[MAX_HAND];
 	int drawntreasure=0;
@@ -32,6 +31,8 @@ void main()
     int player=0;
 	struct gameState state;
 	struct gameState test;
+	int currentPlayer = whoseTurn(&state);
+	int nextPlayer = currentPlayer + 1;
 	int k[10] = {tribute, tribute, tribute, tribute, tribute, tribute, tribute, tribute, tribute, tribute};
 	int count1 = 0;
 	int count2 = 0;
@@ -124,8 +125,8 @@ void main()
 			caseNum = 5;
 		}
 		
-		std::cout << "Tribute Test #" << a+1 << ", Case #" << caseNum);
-		std::cout << std::endl;
+		printf("Tribute Test #%d, Case #%d", a+1, caseNum);
+		printf("\n");
 		// copy the game state to a test case
 		initializeGame(numPlayers, k, seed, &state);
 
@@ -159,21 +160,21 @@ void main()
 		
 		
 		//Deck Count
-		std::cout << "Starting deck count: " << test.deckCount[player] << std::endl;
-		std::cout << "Ending deck count: " << state.deckCount[player] << std::endl;
-		std::cout << std::endl;
+		printf("Starting deck count: %d \n", test.deckCount[player]);
+		printf("Ending deck count: %d \n", state.deckCount[player]);
+		printf("\n");
 		
 		
 		//Check the player hands count
-		std::cout << "Starting hand count: " <<  test.handCount[player] << std::endl;
-		std::cout << "Ending hand count: " << state.handCount[player] << std::endll
-		std::cout << std::endl;
+		printf("Starting hand count: %d \n", test.handCount[player]);
+		printf("Ending hand count: %d \n", state.handCount[player]);
+		printf("\n");
 
 		
 		//Check if player played a card
-		std::cout << "Starting card played count: " << test.playedCardCount << std::endl;
-		std::cout << "Ending card played count: " << state.playedCardCount << std::endl;
-		std::cout << std::endl;
+		printf("Starting card played count: %d \n", test.playedCardCount);
+		printf("Ending card played count: %d \n", state.playedCardCount);
+		printf("\n");
 		
 		
 		//Count Tribute cards in hand
@@ -185,37 +186,37 @@ void main()
 			if(test.hand[0][i] = tribute);
 				count2++;
 		
-		std::cout << "Starting tribute card count: " << count1 << std::endl;
-		std::cout << "Ending tribute card count: " << count2 << std::endl;
-		std::cout << std::endl;
+		printf("Starting tribute card count: %d \n", count1);
+		printf("Ending tribute card count: %d \n", count2);
+		printf("\n");
 		
 		
 		//Discard Test: Check if card was discarded
-		std::cout << "Starting discard count: " << test.discardCount[player] << std::endl;
-		std::cout << "Ending discard count: " << state.discardCount[player] << std::endl;
-		std::cout << std::endl;
+		printf("Starting discard count: %d \n", test.discardCount[player]);
+		printf("Ending discard count: %d \n", state.discardCount[player]);
+		printf("\n");
 		
 		//Actions Test: Check the action counts
-		std::cout << "Starting actions count: " << test.numActions << std::endl;
-		std::cout << "Ending actions count: " << state.numActions << std::endl;
-		std::cout << std::endl;
+		printf("Starting actions count: %d \n", test.numActions);
+		printf("Ending actions count: %d \n", state.numActions);
+		printf("\n");
 		
 		//Coins Test: Check the coin counts
-		std::cout << "Starting coins count: " << test.coins << std::endl;
-		std::cout << "Ending coins count: " << state.coins << std::endl;
-		std::cout << std::endl;
+		printf("Starting coins count: %d \n", test.coins);
+		printf("Ending coins count: %d \n", state.coins);
+		printf("\n");
 	
 		//Checking deck and discard count of next player
-		std::cout << "Starting deck count for next player: " << test.deckCount[nextPlayer] << std::endl;
-		std::cout << "Ending deck count for next player: " << state.deckCount[nextPlayer] << std::endl;
-		std::cout << std::endl;
-		std::cout << "Starting discard count for next player: " << test.discardCount[nextPlayer] << std::endl;
-		std::cout << "Ending discard count for next player: " << state.discardCount[nextPlayer] << std::endl;
-		std::cout << std::endl;
+		printf("Starting deck count for next player: %d \n", test.deckCount[nextPlayer]);
+		printf("Ending deck count for next player: %d \n", state.deckCount[nextPlayer]);
+		printf("\n");
+		printf("Starting discard count for next player: %d \n", test.discardCount[nextPlayer]);
+		printf("Ending discard count for next player: %d \n", state.discardCount[nextPlayer]);
+		printf("\n");
 		
 	
 	}
-	std::cout << "End Tribute Testing" << std::endl;
+	printf("End Tribute Testing\n");
 	if (case1)
 		coverage++;
 	if (case2)
@@ -235,5 +236,5 @@ void main()
 	if (case9)
 		coverage++;
 	coverage = coverage * 100 / 9;
-	std::cout << "Code Coverage: " << coverage << "%" << std::endl;
+	printf("Code Coverage: %lf% \n", coverage);
 }

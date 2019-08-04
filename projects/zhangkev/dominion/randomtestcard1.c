@@ -33,20 +33,20 @@ void main()
 	struct gameState test;
 	int currentPlayer = whoseTurn(&state);
 	int nextPlayer = currentPlayer + 1;
-	int k[10] = {baron, baron, baron, baron, baron, baron, baron, baron, baron, baron};
+	int k[10] = { adventurer, gardens, embargo, village, minion, mine, ambassador, cutpurse,
+		   tribute, baron };
 	int count1 = 0;
 	int count2 = 0;
 	double coverage = 0;
-	bool case1; // decided not to discard, has estate cards, more than 1 estate card in supply
-	bool case2; // decided not to discard, has estate cards, only 1 estate card in supply
-	bool case3; // decided not to discard, has no estate cards, more than 1 estate card in supply
-	bool case4; // decided not to discard, has no estate cards, only 1 estate card in supply
-	bool case5; // decided to discard, has estate cards, more than 1 estate card in supply
-	bool case6; // decided to discard, has estate cards, only 1 estate card in supply
-	bool case7; // decided to discard, has no estate cards, more than 1 estate card in supply
-	bool case8; // decided to discard, has no estate cards, only 1 estate card in supply
+	bool case1 = false; // decided not to discard, has estate cards, more than 1 estate card in supply
+	bool case2 = false; // decided not to discard, has estate cards, only 1 estate card in supply
+	bool case3 = false; // decided not to discard, has no estate cards, more than 1 estate card in supply
+	bool case4 = false; // decided not to discard, has no estate cards, only 1 estate card in supply
+	bool case5 = false; // decided to discard, has estate cards, more than 1 estate card in supply
+	bool case6 = false; // decided to discard, has estate cards, only 1 estate card in supply
+	bool case7 = false; // decided to discard, has no estate cards, more than 1 estate card in supply
+	bool case8 = false; // decided to discard, has no estate cards, only 1 estate card in supply
 	int caseNum;
-	bool hasEstate;
 	
 	// Determining what part of the baron code is covered is governed by 3 different conditions
 	// Whether or not the player has decided to discard an estate card
@@ -56,41 +56,21 @@ void main()
 	
 	for(a = 0; a < 50; a++)
 	{
-		int numPlayers = rand() % 7 + 2;
+		struct gameState newstate;
+		state = newstate;
+		bool hasEstate = false;
+		int numPlayers = rand() % 3 + 2;
 		int seed = rand() % 5000;
-		int rand1;
 		int rand2 = rand() % 2;
 		int rand3 = rand() % 3 + 1;
 		
-		for (i = 1; i < 10; i++)
-		{
-			rand1 = rand() % 10;
-			switch( rand1 ) 
-			{
-				case 0:
-					k[i] = curse;
-				case 1:
-					k[i] = estate;
-					hasEstate = true;
-				case 2:
-					k[i] = duchy;
-				case 3:
-					k[i] = province;
-				case 4:
-					k[i] = copper;
-				case 5:
-					k[i] = silver;
-				case 6:
-					k[i] = gold;
-				case 7:
-					k[i] = adventurer;
-				case 8:
-					k[i] = council_room;
-				case 9:
-					k[i] = feast;
-			}
-		}
-		
+		count1 = 0;
+		for (i = 0; i < state.handCount[0]; i++)
+			if (state.hand[0][i] = estate);
+				count1++;
+		if (count1 > 0)
+			hasEstate = true;
+
 		if (rand2 == 0)
 			choice1 = 1;
 		else
@@ -146,7 +126,6 @@ void main()
 		// copy the game state to a test case
 		initializeGame(numPlayers, k, seed, &state);
 
-		state.supplyCount[estate] = rand3;
 		
 		memcpy(&test, &state, sizeof(struct gameState));
 		cardEffect(baron, choice1, choice2, choice3, &state, handpos, &bonus);
@@ -173,16 +152,33 @@ void main()
 		
 		
 		//Count Baron cards in hand
-		for (i = 0; i < state.handCount[0]; i++)
-			if(state.hand[0][i] = baron);
-				count1++;
-			
+		count1 = 0;
+		count2 = 0;
 		for (i = 0; i < test.handCount[0]; i++)
 			if(test.hand[0][i] = baron);
+				count1++;
+			
+		for (i = 0; i < state.handCount[0]; i++)
+			if(state.hand[0][i] = baron);
 				count2++;
 		
 		printf("Starting baron card count: %d \n", count1);
 		printf("Ending baron card count: %d \n", count2);
+		printf("\n");
+
+		//Count Estate cards in hand
+		count1 = 0;
+		count2 = 0;
+		for (i = 0; i < test.handCount[0]; i++)
+			if (test.hand[0][i] = estate);
+				count1++;
+
+		for (i = 0; i < state.handCount[0]; i++)
+			if (state.hand[0][i] = estate);
+				count2++;
+
+		printf("Starting estate card count: %d \n", count1);
+		printf("Ending estate card count: %d \n", count2);
 		printf("\n");
 		
 		

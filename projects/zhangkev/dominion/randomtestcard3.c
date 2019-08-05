@@ -33,20 +33,21 @@ void main()
 	struct gameState test;
 	int currentPlayer = whoseTurn(&state);
 	int nextPlayer = currentPlayer + 1;
-	int k[10] = {tribute, tribute, tribute, tribute, tribute, tribute, tribute, tribute, tribute, tribute};
+	int k[10] = { adventurer, gardens, embargo, village, minion, mine, ambassador, cutpurse,
+		   tribute, baron };
 	int count1 = 0;
 	int count2 = 0;
 	double coverage = 0;
-	bool case1; // Only 1 card in the deck and 0 in the discard
-	bool case2; // 0 cards in the deck and 1 in the discard
-	bool case3; // no cards at all in deck or discard
-	bool case4; // 0 cards in the deck and 2 or more in the discard
-	bool case5; // 2 or more cards in the deck
-	bool case6; // treasure card revealed
-	bool case7; // victory card revealed
-	bool case8; // action card revealed
-	bool case9; // the two cards are duplicates
-	int caseNum;
+	bool case1 = false; // Only 1 card in the deck and 0 in the discard
+	bool case2 = false; // 0 cards in the deck and 1 in the discard
+	bool case3 = false; // no cards at all in deck or discard
+	bool case4 = false; // 0 cards in the deck and 2 or more in the discard
+	bool case5 = false; // 2 or more cards in the deck
+	bool case6 = false; // treasure card revealed
+	bool case7 = false; // victory card revealed
+	bool case8 = false; // action card revealed
+	bool case9 = false; // the two cards are duplicates
+	int caseNum = 1;
 	
 	// The tribute code has two distinct sections
 	// Section 1 covers how to get the cards in different circumstances
@@ -60,15 +61,17 @@ void main()
 	// If the cards are duplicates one is dropped
 	// Different action taken for each type of card: treasure, victory, and action
 	
-	for(a = 0; a < 50; a++)
+	for(a = 0; a < 20; a++)
 	{
-		int numPlayers = rand() % 7 + 2;
+		struct gameState newstate;
+		state = newstate;
+		int numPlayers = rand() % 3 + 2;
 		int seed = rand() % 5000;
 		int rand1;
 		int rand2 = rand() % 5;
-		int cards[2] = {-1, -1};
+		/*int cards[2] = {-1, -1};
 		
-		for (i = 1; i < 3; i++)
+		for (i = 0; i < 2; i++)
 		{
 			rand1 = rand() % 9;
 			switch( rand1 ) 
@@ -103,23 +106,27 @@ void main()
 			}
 		}
 		
-		if (cards[1] == cards[2])
+		if (cards[0] == cards[1])
 			case9 = true;
-		
+		*/
 		switch( rand2 )
 		{
 		case 0:
 			case1 = true;
 			caseNum = 1;
+			break;
 		case 1:
 			case2 = true;
 			caseNum = 2;
+			break;
 		case 2:
 			case3 = true;
 			caseNum = 3;
+			break;
 		case 3:
 			case4 = true;
 			caseNum = 4;
+			break;
 		case 4:
 			case5 = true;
 			caseNum = 5;
@@ -130,33 +137,36 @@ void main()
 		// copy the game state to a test case
 		initializeGame(numPlayers, k, seed, &state);
 
+		player = whoseTurn(&state);
+		nextPlayer = player + 1;
+
 		switch( rand2 )
 		{
 		case 0:
 			state.deckCount[nextPlayer] = 1;
 			state.discardCount[nextPlayer] = 0;
-			state.deck[nextPlayer][state.deckCount[nextPlayer]-1] = cards[0];
+			printf("one card in deck\n");
+			break;
 		case 1:
 			state.deckCount[nextPlayer] = 0;
 			state.discardCount[nextPlayer] = 1;
-			state.discard[nextPlayer][state.discardCount[nextPlayer]-1] = cards[0];
+			printf("one card in discard\n");
+			break;
 		case 2:
 			state.deckCount[nextPlayer] = 0;
 			state.discardCount[nextPlayer] = 0;
+			printf("no cards in either\n");
+			break;
 		case 3:
 			state.deckCount[nextPlayer] = 0;
 			state.discardCount[nextPlayer] = 2;
-			state.discard[nextPlayer][0] = cards[0];
-			state.discard[nextPlayer][1] = cards[1];
-		case 4:
-			state.deck[nextPlayer][state.deckCount[nextPlayer]-1] = cards[0];
-			state.deck[nextPlayer][state.deckCount[nextPlayer]-2] = cards[1];
+			printf("2 cards in discard\n");
+			break;
 		}
-		
 		memcpy(&test, &state, sizeof(struct gameState));
 		cardEffect(tribute, choice1, choice2, choice3, &state, handpos, &bonus);
 
-		player = whoseTurn(&test);
+		
 		
 		
 		//Deck Count
@@ -177,13 +187,15 @@ void main()
 		printf("\n");
 		
 		
+		count1 = 0;
+		count2 = 0;
 		//Count Tribute cards in hand
-		for (i = 0; i < state.handCount[0]; i++)
-			if(state.hand[0][i] = tribute);
-				count1++;
-			
 		for (i = 0; i < test.handCount[0]; i++)
 			if(test.hand[0][i] = tribute);
+				count1++;
+			
+		for (i = 0; i < state.handCount[0]; i++)
+			if(state.hand[0][i] = tribute);
 				count2++;
 		
 		printf("Starting tribute card count: %d \n", count1);

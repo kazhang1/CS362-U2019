@@ -54,21 +54,18 @@ void main()
 	// Whether or not, in the event that the card draws an estate card, if the estate supply is empty afterwards
 	// Altogether there are a total of 8 possible permutations of these conditions that can be tested which denotes the code coverage
 	
-	for(a = 0; a < 50; a++)
+	for(a = 0; a < 20; a++)
 	{
 		struct gameState newstate;
 		state = newstate;
 		bool hasEstate = false;
 		int numPlayers = rand() % 3 + 2;
 		int seed = rand() % 5000;
+		int rand1 = rand() % 2;
 		int rand2 = rand() % 2;
 		int rand3 = rand() % 3 + 1;
-		
-		count1 = 0;
-		for (i = 0; i < state.handCount[0]; i++)
-			if (state.hand[0][i] = estate);
-				count1++;
-		if (count1 > 0)
+
+		if (rand1 > 0)
 			hasEstate = true;
 
 		if (rand2 == 0)
@@ -126,13 +123,22 @@ void main()
 		// copy the game state to a test case
 		initializeGame(numPlayers, k, seed, &state);
 
-		
+
+		for (i = 0; i < 5; i++) {
+			state.hand[0][i] = copper;
+		}
+		if (rand1 > 0){
+			int rand4 = rand() % 5;
+			state.hand[0][rand4] = estate;
+		}
+	
+
 		memcpy(&test, &state, sizeof(struct gameState));
 		cardEffect(baron, choice1, choice2, choice3, &state, handpos, &bonus);
 
-		player = whoseTurn(&test);
+		player = 0;
 		
-		
+		/*
 		//Deck Count
 		printf("Starting deck count: %d \n", test.deckCount[player]);
 		printf("Ending deck count: %d \n", state.deckCount[player]);
@@ -186,6 +192,11 @@ void main()
 		printf("Starting discard count: %d \n", test.discardCount[player]);
 		printf("Ending discard count: %d \n", state.discardCount[player]);
 		printf("\n");
+
+		//Actions Test: Check the coin counts
+		printf("Starting actions count: %d \n", test.numActions);
+		printf("Ending actions count: %d \n", state.numActions);
+		printf("\n");
 		
 		//Buys Test: Check if the +1 Buys was added
 		printf("Starting buys count: %d \n", test.numBuys);
@@ -205,7 +216,7 @@ void main()
 		//Gameover Test: Check to see if it's Game Over
 		printf("Game Over state is %d (1 is yes, 0 is no)\n", isGameOver(&state));
 		printf("\n");
-		
+		*/
 		
 	
 	}

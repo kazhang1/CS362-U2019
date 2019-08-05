@@ -22,9 +22,7 @@ void main()
 	int cardDrawn;
 	int z = 0;// this is the counter for the temp hand
     int handpos = 0;
-	int choice1 = 0;
-	int choice2 = 0;
-	int choice3 = 0;
+	
 	int bonus = 0;
     int seed = 1000;
     int numPlayers = 2;
@@ -33,16 +31,17 @@ void main()
 	struct gameState test;
 	int currentPlayer = whoseTurn(&state);
 	int nextPlayer = currentPlayer + 1;
-	int k[10] = {minion, minion, minion, minion, minion, minion, minion, minion, minion, minion};
+	int k[10] = { adventurer, gardens, embargo, village, minion, mine, ambassador, cutpurse,
+		   tribute, baron };
 	int count1 = 0;
 	int count2 = 0;
 	double coverage = 0;
-	bool case1; // decided to take the coins, at least one other player has 5 or more cards
-	bool case2; // decided to take the coins, no other player has 5 or more cards
-	bool case3; // decided not take the coins, at least one other player has 5 or more cards
-	bool case4; // decided not take the coins, no other player has 5 or more cards
+	bool case1 = false; // decided to take the coins, at least one other player has 5 or more cards
+	bool case2 = false; // decided to take the coins, no other player has 5 or more cards
+	bool case3 = false; // decided not take the coins, at least one other player has 5 or more cards
+	bool case4 = false; // decided not take the coins, no other player has 5 or more cards
 	int caseNum;
-	bool handFive;
+	
 	
 	// Determining what part of the minion code is covered is governed by 2 different conditions
 	// Whether or not the player has decided to take the coins or to discard their hand
@@ -50,7 +49,13 @@ void main()
 	
 	for(a = 0; a < 50; a++)
 	{
-		int numPlayers = rand() % 7 + 2;
+		struct gameState newstate;
+		state = newstate;
+		bool handFive = false;
+		int choice1 = 0;
+		int choice2 = 0;
+		int choice3 = 0;
+		int numPlayers = rand() % 3 + 2;
 		int seed = rand() % 5000;
 		int rand1 = rand() % 2;
 		int rand2 = rand() % 11;
@@ -59,6 +64,9 @@ void main()
 			choice1 = 1;
 		else
 			choice2 = 1;
+
+		if (rand2 >= 5)
+			handFive = true;
 
 		if (choice1 == 1)
 		{
@@ -88,7 +96,7 @@ void main()
 
 		for (i = 1; i < numPlayers; i++)
 		{
-			statehandCount[i] = rand2;
+			state.handCount[i] = rand2;
 		}
 		
 		memcpy(&test, &state, sizeof(struct gameState));
@@ -96,7 +104,7 @@ void main()
 
 		player = whoseTurn(&test);
 		
-		
+		/*
 		//Deck Count
 		printf("Starting deck count: %d \n", test.deckCount[player]);
 		printf("Ending deck count: %d \n", state.deckCount[player]);
@@ -114,14 +122,15 @@ void main()
 		printf("Ending card played count: %d \n", state.playedCardCount);
 		printf("\n");
 		
-		
+		count1 = 0;
+		count2 = 0;
 		//Count Minion cards in hand
-		for (i = 0; i < state.handCount[0]; i++)
-			if(state.hand[0][i] = minion);
-				count1++;
-			
 		for (i = 0; i < test.handCount[0]; i++)
 			if(test.hand[0][i] = minion);
+				count1++;
+			
+		for (i = 0; i < state.handCount[0]; i++)
+			if(state.hand[0][i] = minion);
 				count2++;
 		
 		printf("Starting minion card count: %d \n",  count1);
@@ -145,13 +154,13 @@ void main()
 		
 		//Check hand and discard counts of other players
 		for (i = 1; i < numPlayers; i++) {
-			printf("Starting hand count for player %d \n: %d", i+1, test.handCount[i]);
-			printf("Ending hand count for player %d \n: %d", i+1, state.handCount[i]);
-			printf("Starting discard count for player %d \n: %d", i+1, test.discardCount[i]);
-			printf("Ending discard count for player %d \n: %d", i+1, state.discardCount[i]);
+			printf("Starting hand count for player %d : %d\n", i+1, test.handCount[i]);
+			printf("Ending hand count for player %d : %d\n", i+1, state.handCount[i]);
+			printf("Starting discard count for player %d : %d\n", i+1, test.discardCount[i]);
+			printf("Ending discard count for player %d : %d\n", i+1, state.discardCount[i]);
 			printf("\n");
 		}
-			
+			*/
 	
 	}
 	printf("End Minion Testing\n");

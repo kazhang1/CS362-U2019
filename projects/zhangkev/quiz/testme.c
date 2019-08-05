@@ -6,21 +6,31 @@
 char inputChar()
 {
     // TODO: rewrite this function
-	char random = (rand() % 94) + 32;
-	return random;
+	// ASCII code for space is 32
+	// ASCII code for } is 125
+	// All other case chars are inbetween the two
+	// 125 - 32 + 1 = 94
+
+	char c;
+
+	c = rand() % 94 + 32;
+
+	return c;
 }
 
 char *inputString()
 {
     // TODO: rewrite this function
-	static char s[6];		//Array that will be returned
-	int i = 0;
+	// ASCII code for e is 101
+	// ASCII code for t is 116
+	// 6th place is not assigned so it is always \0
+	// 116 - 101 + 1 = 16
+	
+	static char s[5];
+	int i;
 
-	//0 to 15.  Adding 101 would bring it to 101(e) and 116(t)
-	while (i < 5)
-	{
-		s[i] = (rand() % 16) + 101;
-		i++;
+	for (i = 0; i < 5; i++) {
+		s[i] = rand() % 16 + 101;
 	}
 
 	return s;

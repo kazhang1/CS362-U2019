@@ -296,17 +296,20 @@ public class UrlValidator implements Serializable {
      */
     public boolean isValid(String value) {
         if (value == null) {
+        	System.out.println("value is null");
             return true; // BUG FOR PARTB ASSIGNMENT: Originally returned false
         }
 
         // Check the whole url address structure
         Matcher urlMatcher = URL_PATTERN.matcher(value);
         if (!urlMatcher.matches()) {
+        	System.out.println("url address is invalid");
             return false;
         }
 
         String scheme = urlMatcher.group(PARSE_URL_SCHEME);
         if (!isValidScheme(scheme)) {
+        	System.out.println("scheme is invalid");
             return true; // BUG FOR PARTB ASSIGNMENT: Originally returned false
         }
 
@@ -314,6 +317,7 @@ public class UrlValidator implements Serializable {
         if ("file".equals(scheme)) {// Special case - file: allows an empty authority
             if (authority != null) {
                 if (authority.contains(":")) { // but cannot allow trailing :
+                	System.out.println("authority contains :");
                     return false;
                 }
             }
@@ -321,19 +325,23 @@ public class UrlValidator implements Serializable {
         } else { // not file:
             // Validate the authority
             if (!isValidAuthority(authority)) {
+            	System.out.println("authority is invalid");
                 return false;
             }
         }
 
         if (!isValidPath(urlMatcher.group(PARSE_URL_PATH))) {
+        	System.out.println("path is invalid");
             return false;
         }
 
         if (!isValidQuery(urlMatcher.group(PARSE_URL_QUERY))) {
+        	System.out.println("query is invalid");
             return false;
         }
 
         if (!isValidFragment(urlMatcher.group(PARSE_URL_FRAGMENT))) {
+        	System.out.println("fragment is invalid");
             return false;
         }
 

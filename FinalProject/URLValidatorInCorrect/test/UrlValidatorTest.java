@@ -494,6 +494,46 @@ protected void setUp() {
        assertTrue(validator.isValid("http://example.com/serach?address=Main%20Avenue"));
        assertTrue(validator.isValid("http://example.com/serach?address=Main+Avenue"));
    }
+   
+   public void testValidatorNathan() {
+	   UrlValidator validator = new UrlValidator();
+       assertTrue(validator.isValid("http://www.google.com/"));
+	   Random rand = new Random();
+	   
+	   int schemeIndex;
+	   int authorityIndex;
+	   int portIndex;
+	   int pathIndex;
+	   int optionIndex;
+	   int queryIndex;
+	   String randomUrl;
+	   boolean boolExpected;
+	   boolean boolResult;
+	   
+	   for(int i = 0; i < 10000; ++i) 
+	   {
+		   schemeIndex = rand.nextInt(8);
+		   authorityIndex = rand.nextInt(20);
+		   portIndex = rand.nextInt(9);
+		   pathIndex = rand.nextInt(10);
+		   optionIndex = rand.nextInt(15);
+		   queryIndex = rand.nextInt(3);
+	   
+		   randomUrl = (testUrlScheme[schemeIndex].item + testUrlAuthority[authorityIndex].item +
+    		   			   		testUrlPort[portIndex].item + testPath[pathIndex].item + 
+    		   			   		testUrlPathOptions[optionIndex].item + testUrlQuery[queryIndex].item);
+       
+		   boolExpected = (testUrlScheme[schemeIndex].valid & testUrlAuthority[authorityIndex].valid &&
+   			      	  				testUrlPort[portIndex].valid && testPath[pathIndex].valid && 
+   			      	  				testUrlPathOptions[optionIndex].valid && testUrlQuery[queryIndex].valid);
+		   boolResult = validator.isValid(randomUrl);
+		   System.out.printf("%s\n", randomUrl);
+		   System.out.println(boolExpected);
+		   System.out.println(boolResult);
+		   assertEquals(randomUrl,boolExpected,boolResult);
+	   }
+       
+   }
 
    //-------------------- Test data for creating a composite URL
    /**

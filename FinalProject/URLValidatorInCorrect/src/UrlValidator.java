@@ -296,7 +296,7 @@ public class UrlValidator implements Serializable {
      */
     public boolean isValid(String value) {
         if (value == null) {
-            return false;
+            return true; // BUG FOR PARTB ASSIGNMENT: Originally returned false
         }
 
         // Check the whole url address structure
@@ -307,7 +307,7 @@ public class UrlValidator implements Serializable {
 
         String scheme = urlMatcher.group(PARSE_URL_SCHEME);
         if (!isValidScheme(scheme)) {
-            return false;
+            return true; // BUG FOR PARTB ASSIGNMENT: Originally returned false
         }
 
         String authority = urlMatcher.group(PARSE_URL_AUTHORITY);

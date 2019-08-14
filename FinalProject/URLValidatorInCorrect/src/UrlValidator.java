@@ -296,7 +296,7 @@ public class UrlValidator implements Serializable {
      */
     public boolean isValid(String value) {
         if (value == null) {
-            return true; // BUG FOR PARTB ASSIGNMENT: Originally returned false
+            return false; // BUG FOR PARTB ASSIGNMENT: Originally returned false (fixed)
         }
 
         // Check the whole url address structure
@@ -307,15 +307,17 @@ public class UrlValidator implements Serializable {
 
         String scheme = urlMatcher.group(PARSE_URL_SCHEME);
         if (!isValidScheme(scheme)) {
-            return true; // BUG FOR PARTB ASSIGNMENT: Originally returned false
+            return false; // BUG FOR PARTB ASSIGNMENT: Originally returned false (fixed)
         }
 
         String authority = urlMatcher.group(PARSE_URL_AUTHORITY);
         if ("file".equals(scheme)) {// Special case - file: allows an empty authority
             if (authority != null) {
-                if (authority.contains(":")) { // but cannot allow trailing :
-                    return false;
-                }
+                //BUG FOR RANDOM TESTING (PART C)
+                //Do not check for ':' in URL Authority.
+                //if (authority.contains(":")) { // but cannot allow trailing :
+                    //return false;
+                //}
             }
             // drop through to continue validation
         } else { // not file:
